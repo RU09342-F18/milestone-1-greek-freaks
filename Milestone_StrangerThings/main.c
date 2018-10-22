@@ -7,6 +7,8 @@ References
 #include <msp430.h>
 
 /**
+   Authors: 
+   Colin Craig & Kevin Beenders
  * main.c
  */
 
@@ -33,9 +35,6 @@ void initLED ()
     P2SEL |= BIT4; //Primary peripheral module function is selected
     P2SEL2 &= ~BIT4; //Primary peripheral module function is selected
     P2DIR |= BIT4; //Sets direction of P2.4 to an output
-
-    P2DIR |= BIT5;
-    P2OUT &= ~BIT5;
 }
 
 void initTimer ()
@@ -58,7 +57,7 @@ void initTimer ()
 
 void initUART ()
 {
-    P1SEL |= BIT1+BIT2;
+    P1SEL |= BIT1+BIT2; //Initializes UCA0RXD and UCA0TXD on P1.1 and P1.2
     P1SEL2 |= BIT1+BIT2;
     UCA0CTL1 |= UCSSEL_2; //Selects SMCLK for USCI_A0 control register
 
@@ -106,13 +105,13 @@ __interrupt void USCI0RX_ISR(void) {
         UCA0TXBUF = UCA0RXBUF; //Default to transmit buffer equals receiving buffer
         break;
     }
-    if (byte != size)
+    if (byte != size) //Increments until the last byte in the packet
     {
-        byte++;
+        byte++; //Increments to the next byte to get processed in the switch statement
     }
     else
     {
-        byte = 0;
+        byte = 0; //Resets once the whole packet has been sent
     }
 }
 
