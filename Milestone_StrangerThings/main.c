@@ -119,6 +119,6 @@ __interrupt void USCI0RX_ISR(void) {
 #pragma vector=USCIAB0TX_VECTOR
 __interrupt void USCI0TX_ISR(void) {
      P1OUT |= BIT0;
-     UC0IE &= ~UCA0TXIE;
+     UC0IE &= ~UCA0TXIE;        //disables interrupts on the TX buffer
      P1OUT &= ~BIT0;
 }
